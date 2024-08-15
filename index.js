@@ -2,6 +2,7 @@
 const express = require('express')
 const app = express()
 
+app.use(express.json())
 
 let notes = [
   {
@@ -21,21 +22,27 @@ let notes = [
   }
 ]
 
+//getting all the notes displayed on the server
+
+app.get('/api/notes', (request, response) => {
+  response.json(notes)
+})
+
+//searching for a specific note
+
 app.get('/api/notes/:id', (request, response) => {
   const id = request.params.id
   const note = notes.find(note => note.id === id)
   if (note){
     response.json(note)
-  } else {
+  }else {
     response.status(404)
     response.send("note not found!")
 
   }
 })
 
-app.get('/api/notes', (request, response) => {
-  response.json(notes)
-})
+//deleting note (testing with postman or rest Client !!)
 
 app.delete('/api/notes/:id', (request, response) => {
   const id = request.params.id
@@ -43,6 +50,13 @@ app.delete('/api/notes/:id', (request, response) => {
   response.status(204).end()
 })
 
+//adding notes to the server 
+
+app.post('/api/notes', (request, response) =>{
+  const note = request.body
+  console.log(note)
+  response.json(note)
+})
 
 const PORT = 3001
 app.listen(PORT)
