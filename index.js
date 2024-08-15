@@ -33,6 +33,10 @@ app.get('/api/notes/:id', (request, response) => {
   }
 })
 
+app.get('/api/notes', (request, response) => {
+  response.json(notes)
+})
+
 app.delete('/api/notes/:id', (request, response) => {
   const id = request.params.id
   const note = notes.find(note => note.id != id)
