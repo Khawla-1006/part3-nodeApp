@@ -53,7 +53,15 @@ app.delete('/api/notes/:id', (request, response) => {
 //adding notes to the server 
 
 app.post('/api/notes', (request, response) =>{
+  
+  const maxId = notes.length > 0
+  ? Math.max(...notes.map(n => Number(n.id)))
+  : 0
+
   const note = request.body
+  note.id = String(maxId + 1)
+  notes = notes.concat(note)
+  
   console.log(note)
   response.json(note)
 })
